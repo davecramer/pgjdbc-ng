@@ -35,6 +35,7 @@
  */
 package com.impossibl.postgres.jdbc;
 
+
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -188,8 +189,12 @@ public class DatabaseMetaDataTest {
       assertTrue(fkColumnName.equals("m") || fkColumnName.equals("n"));
 
       String fkName = rs.getString("FK_NAME");
-      assertEquals("ww_m_fkey", fkName);
-
+      if (((PGDirectConnection)con1).getServerVersion().isMinimum(15)) {
+        assertEquals("ww_m_n_fkey", fkName);
+      }
+      else {
+        assertEquals("ww_m_fkey", fkName);
+      }
       String pkName = rs.getString("PK_NAME");
       assertEquals("vv_pkey", pkName);
 

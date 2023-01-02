@@ -145,6 +145,10 @@ public class ResultSetTest {
     stmt.executeUpdate("INSERT INTO testnumeric VALUES('9223372036854775808')");
     stmt.executeUpdate("INSERT INTO testnumeric VALUES('-9223372036854775809')");
 
+    TestUtil.createTable(con, "testfloat", "a float4");
+
+    stmt.executeUpdate("INSERT INTO testfloat VALUES('9223371487098961921')");
+    stmt.executeUpdate("INSERT INTO testfloat VALUES('10223372036850000000')");
     stmt.close();
 
   }
@@ -498,6 +502,27 @@ public class ResultSetTest {
     st.close();
   }
 
+  @Test
+  public void testGetLongFloat() throws SQLException {
+    Statement st = con.createStatement();
+
+    ResultSet rs = con.createStatement().executeQuery("select a from testfloat");
+
+    assertTrue(rs.next());
+    assertEquals(9223371487098961921.0, rs.getLong(1), 1.0e11);
+    long f = (long)StrictMath.nextDown(Long.MAX_VALUE);
+    assertTrue(rs.next());
+    do {
+      try {
+        long l = rs.getLong(1);
+        fail("Exception expected." + rs.getString(1));
+      }
+      catch (RuntimeException e) {
+      }
+    } while (rs.next());
+
+    rs.close();
+  }
   @Test
   public void testgetBytes() throws SQLException {
     Statement st = con.createStatement();

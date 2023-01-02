@@ -222,7 +222,7 @@ public class Records extends SimpleProcProvider {
       }
 
       List<CharSequence> attributeBuffers = new ArrayList<>();
-      parseAttributeBuffers(type.getDelimeter(), buffer, attributeBuffers);
+      parseAttributeBuffers(type.getDelimiter(), buffer, attributeBuffers);
 
       return convertOutput(context, type, attributeTypes, attributeBuffers.toArray(new CharSequence[0]), targetClass, PGSQLInput.Text::new, PGBuffersStruct.Text::new);
     }
@@ -347,7 +347,7 @@ public class Records extends SimpleProcProvider {
     @Override
     protected void encodeValue(Context context, Type type, Object value, Object sourceContext, StringBuilder buffer) throws IOException {
 
-      char delim = type.getDelimeter();
+      char delim = type.getDelimiter();
 
       PGStruct struct = convertInput(context, value);
       Type[] attributeTypes = struct.getAttributeTypes();

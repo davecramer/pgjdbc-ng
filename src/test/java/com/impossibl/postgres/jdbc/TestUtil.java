@@ -105,7 +105,7 @@ public class TestUtil {
   }
 
   public static String getUser() {
-    return System.getProperty("pgjdbc.test.user", "pgjdbc");
+    return System.getProperty("pgjdbc.test.user", "davecra");
   }
 
   public static String getPassword() {
@@ -178,18 +178,12 @@ public class TestUtil {
     }
   }
 
-  /*
-   * Helper - creates a test table for use by a test
-   */
-  public static void createTable(Connection con, String table, String columns) throws SQLException {
-    // by default we don't request oids.
-    createTable(con, table, columns, false);
-  }
+
 
   /*
    * Helper - creates a test table for use by a test
    */
-  public static void createTable(Connection con, String table, String columns, boolean withOids) throws SQLException {
+  public static void createTable(Connection con, String table, String columns) throws SQLException {
     Statement st = con.createStatement();
     try {
       // Drop the table
@@ -198,9 +192,6 @@ public class TestUtil {
       // Now create the table
       String sql = "CREATE TABLE " + table + " (" + columns + ") ";
 
-      if (withOids) {
-        sql += " WITH OIDS";
-      }
       st.executeUpdate(sql);
     }
     finally {

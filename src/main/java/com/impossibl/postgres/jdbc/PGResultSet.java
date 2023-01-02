@@ -2430,7 +2430,7 @@ class CursorScroller extends Scroller {
       }
     }
 
-    sb.append("WHERE CURRENT OF ");
+    sb.append(" WHERE CURRENT OF ");
     sb.append(cursorName);
 
     ResultField[] rowColumns = rowData.getColumnFields();

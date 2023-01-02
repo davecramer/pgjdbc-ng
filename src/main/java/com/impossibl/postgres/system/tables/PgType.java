@@ -66,8 +66,6 @@ public class PgType implements Table<PgType.Row> {
     private int domainTypeMod;
     private boolean domainNotNull;
     private String domainDefault;
-    private Integer rangeBaseTypeId;
-
     public Row() {
     }
 
@@ -93,7 +91,6 @@ public class PgType implements Table<PgType.Row> {
       this.domainNotNull = rowData.getColumn(DOMAIN_NOT_NULL, context, Boolean.class);
       this.namespace = rowData.getColumn(NAMESPACE, context, String.class);
       this.domainDefault = rowData.getColumn(DOMAIN_DEFAULT, context, String.class);
-      this.rangeBaseTypeId = rowData.getColumn(RANGE_BASE_TYPE_ID, context, Integer.class);
     }
 
     public int getOid() {
@@ -264,13 +261,6 @@ public class PgType implements Table<PgType.Row> {
       domainDefault = v;
     }
 
-    public Integer getRangeBaseTypeId() {
-      return rangeBaseTypeId;
-    }
-
-    public void setRangeBaseTypeId(Integer v) {
-      rangeBaseTypeId = v;
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -317,7 +307,6 @@ public class PgType implements Table<PgType.Row> {
   static final int DOMAIN_TYPE_MOD = 18;
   static final int DOMAIN_NOT_NULL = 19;
   static final int DOMAIN_DEFAULT = 20;
-  static final int RANGE_BASE_TYPE_ID = 21;
 
   public static final PgType INSTANCE = new PgType();
 
@@ -326,7 +315,14 @@ public class PgType implements Table<PgType.Row> {
 
   @Override
   public String getSQL(Version currentVersion) {
-    return Tables.getSQL(SQL, currentVersion);
+    return " select" +
+        "   t.oid, typname as \"name\", typlen as \"length\", typtype as \"discriminator\", typcategory as \"category\", typdelim as \"deliminator\", typrelid as \"relationId\"," +
+        "   typelem as \"elementTypeId\", typarray as \"arrayTypeId\", typinput::oid as \"inputId\", typoutput::oid as \"outputId\", typreceive::oid as \"receiveId\", typsend::oid as \"sendId\"," +
+        "   typmodin::oid as \"modInId\", typmodout::oid as \"modOutId\", typalign as alignment, n.nspname as \"namespace\", " +
+        "   typbasetype as \"domainBaseTypeId\", typtypmod as \"domainTypeMod\", typnotnull as \"domainNotNull\", pg_catalog.pg_get_expr(typdefaultbin,0) as \"domainDefault\" " +
+        " from" +
+        "   pg_catalog.pg_type t" +
+        " left join pg_catalog.pg_namespace n on (t.typnamespace = n.oid) ";
   }
 
   @Override
@@ -336,28 +332,5 @@ public class PgType implements Table<PgType.Row> {
     return row;
   }
 
-  private static final Object[] SQL = {
-    Version.get(9, 2, 0),
-    " select" +
-      "   t.oid, typname as \"name\", typlen as \"length\", typtype as \"discriminator\", typcategory as \"category\", typdelim as \"deliminator\", typrelid as \"relationId\"," +
-      "   typelem as \"elementTypeId\", typarray as \"arrayTypeId\", typinput::oid as \"inputId\", typoutput::oid as \"outputId\", typreceive::oid as \"receiveId\", typsend::oid as \"sendId\"," +
-      "   typmodin::oid as \"modInId\", typmodout::oid as \"modOutId\", typalign as alignment, n.nspname as \"namespace\", " +
-      "   typbasetype as \"domainBaseTypeId\", typtypmod as \"domainTypeMod\", typnotnull as \"domainNotNull\", pg_catalog.pg_get_expr(typdefaultbin,0) as \"domainDefault\", " +
-      "   rngsubtype as \"rangeBaseTypeId\"" +
-      " from" +
-      "   pg_catalog.pg_type t" +
-      " left join pg_catalog.pg_namespace n on (t.typnamespace = n.oid) " +
-      " left join pg_catalog.pg_range r on (t.oid = r.rngtypid)",
-    Version.get(9, 1, 0),
-    " select" +
-      "   t.oid, typname as \"name\", typlen as \"length\", typtype as \"discriminator\", typcategory as \"category\", typdelim as \"deliminator\", typrelid as \"relationId\"," +
-      "   typelem as \"elementTypeId\", typarray as \"arrayTypeId\", typinput::oid as \"inputId\", typoutput::oid as \"outputId\", typreceive::oid as \"receiveId\", typsend::oid as \"sendId\"," +
-      "   typmodin::oid as \"modInId\", typmodout::oid as \"modOutId\", typalign as alignment, n.nspname as \"namespace\", " +
-      "   typbasetype as \"domainBaseTypeId\", typtypmod as \"domainTypeMod\", typnotnull as \"domainNotNull\", pg_catalog.pg_get_expr(typdefaultbin,0) as \"domainDefault\" " +
-      "   null as \"rangeBaseTypeId\"" +
-      " from" +
-      "   pg_catalog.pg_type t" +
-      " left join pg_catalog.pg_namespace n on (t.typnamespace = n.oid) ",
-  };
 
 }

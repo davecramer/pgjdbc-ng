@@ -282,7 +282,7 @@ public class Arrays extends SimpleProcProvider {
 
       List<CharSequence> elementBuffers = new ArrayList<>();
 
-      int[] dimensions = parseElementBuffers(atype.getDelimeter(), buffer, elementBuffers);
+      int[] dimensions = parseElementBuffers(atype.getDelimiter(), buffer, elementBuffers);
 
       ByteBuf[] elementBinaryBuffers = new ByteBuf[elementBuffers.size()];
       for (int elementIdx = 0; elementIdx < elementBuffers.size(); ++elementIdx) {
@@ -453,7 +453,7 @@ public class Arrays extends SimpleProcProvider {
 
       Type elementType = arrayType.getElementType();
 
-      writeArray(context, elementType, elementType.getDelimeter(), value, sourceContext, buffer);
+      writeArray(context, elementType, elementType.getDelimiter(), value, sourceContext, buffer);
 
     }
 

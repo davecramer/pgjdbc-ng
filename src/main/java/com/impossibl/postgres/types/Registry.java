@@ -32,6 +32,7 @@ import com.impossibl.postgres.system.Context;
 import com.impossibl.postgres.system.procs.Procs;
 import com.impossibl.postgres.system.tables.PgAttribute;
 import com.impossibl.postgres.system.tables.PgProc;
+import com.impossibl.postgres.system.tables.PgRange;
 import com.impossibl.postgres.system.tables.PgType;
 import com.impossibl.postgres.types.Type.Category;
 import com.impossibl.postgres.types.Type.Codec;
@@ -93,7 +94,7 @@ public class Registry {
     oidMap = new TreeMap<>();
     oidMap.put(16, new BaseType(16, "bool",     (short) 1,  (byte) 0, Category.Boolean, ',', 0, "bool", procs, Binary, Binary));
     oidMap.put(17, new BaseType(17, "bytea",    (short) 1,  (byte) 0, Category.User,    ',', 0, "bytea", procs, Binary, Binary));
-    oidMap.put(18, new BaseType(18, "char",     (short) 1,  (byte) 0, Category.String,  ',', 0, "char", procs, Binary, Binary));
+    oidMap.put(18, new BaseType(18, "bpchar",     (short) 1,  (byte) 0, Category.String,  ',', 0, "bpchar", procs, Binary, Binary));
     oidMap.put(19, new BaseType(19, "name",     (short) 64, (byte) 0, Category.String,  ',', 0, "name", procs, Binary, Binary));
     oidMap.put(21, new BaseType(21, "int2",     (short) 2,  (byte) 0, Category.Numeric, ',', 0, "int2", procs, Binary, Binary));
     oidMap.put(23, new BaseType(23, "int4",     (short) 4,  (byte) 0, Category.Numeric, ',', 0, "int4", procs, Binary, Binary));
@@ -318,7 +319,7 @@ public class Registry {
    * @param pgAttrRows "pg_attribute" table rows
    * @param pgProcRows "pg_proc" table rows
    */
-  public void update(Collection<PgType.Row> pgTypeRows, Collection<PgAttribute.Row> pgAttrRows, Collection<PgProc.Row> pgProcRows) {
+  public void update(Collection<PgType.Row> pgTypeRows, Collection<PgAttribute.Row> pgAttrRows, Collection<PgProc.Row> pgProcRows, Collection<PgRange.Row> pgRangeRows) {
 
     lock.writeLock().lock();
     try {
@@ -371,6 +372,17 @@ public class Registry {
       loadType(pgType.getOid());
     }
 
+    /*
+    pg_range is a very small table we can do this here
+     */
+    for (PgRange.Row pgRange : pgRangeRows) {
+      Type pgType = oidMap.get(pgRange.getRangeTypeId());
+      ((RangeType)pgType).setBase(oidMap.get(pgRange.getBaseTypeId()));
+
+      pgType = oidMap.get(pgRange.getMultiRangeTypeId());
+      ((MultiRangeType)pgType).setBase(oidMap.get(pgRange.getBaseTypeId()));
+
+    }
   }
 
   /*
@@ -487,7 +499,12 @@ public class Registry {
           break;
         case 'r':
           type = new RangeType();
+
           break;
+        case 'm':
+          type = new MultiRangeType();
+          break;
+
         default:
           logger.warning("unknown discriminator (aka 'typtype') found in pg_type table");
           return null;

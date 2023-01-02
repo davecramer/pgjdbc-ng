@@ -45,26 +45,10 @@ public class PgTypeTest {
   @Rule
   public final ExpectedException thrown = ExpectedException.none();
 
-  @Test
-  public void testGetSQLVersionEqual() throws Exception {
-    assertEquals(PgType.INSTANCE.getSQL(Version.parse("9.2.0")), SQL[1]);
-    assertNotEquals(PgType.INSTANCE.getSQL(Version.parse("9.1.0")), PgType.INSTANCE.getSQL(Version.parse("9.2.0")));
-  }
 
   @Test
-  public void testGetSQLVersionGreater() throws Exception {
-    assertEquals(PgType.INSTANCE.getSQL(Version.parse("9.4.5")), SQL[1]);
-  }
-
-  @Test
-  public void testGetSQLVersionLess() throws Exception {
-    assertEquals(PgType.INSTANCE.getSQL(Version.parse("9.1.9")), SQL[3]);
-  }
-
-  @Test
-  public void testGetSQLVersionInvalid() throws Exception {
-    thrown.expect(UnsupportedServerVersion.class);
-    assertEquals(PgType.INSTANCE.getSQL(Version.parse("8.0.0")), SQL[1]);
+  public void testGetSQL() throws Exception {
+    assertEquals(PgType.INSTANCE.getSQL(null), SQL);
   }
 
   @Test
@@ -98,29 +82,12 @@ public class PgTypeTest {
     return pgTypeRow;
   }
 
-  // copy-paste from PgType.  Has to be a better way than this, but IDE and dp4j don't seem to get along.
-  private static final Object[] SQL = {
-    Version.get(9, 2, 0),
-    " select" +
-      "   t.oid, typname as \"name\", typlen as \"length\", typtype as \"discriminator\", typcategory as \"category\", typdelim as \"deliminator\", typrelid as \"relationId\"," +
-      "   typelem as \"elementTypeId\", typarray as \"arrayTypeId\", typinput::oid as \"inputId\", typoutput::oid as \"outputId\", typreceive::oid as \"receiveId\", typsend::oid as \"sendId\"," +
-      "   typmodin::oid as \"modInId\", typmodout::oid as \"modOutId\", typalign as alignment, n.nspname as \"namespace\", " +
-      "   typbasetype as \"domainBaseTypeId\", typtypmod as \"domainTypeMod\", typnotnull as \"domainNotNull\", pg_catalog.pg_get_expr(typdefaultbin,0) as \"domainDefault\", " +
-      "   rngsubtype as \"rangeBaseTypeId\"" +
-      " from" +
-      "   pg_catalog.pg_type t" +
-      " left join pg_catalog.pg_namespace n on (t.typnamespace = n.oid) " +
-      " left join pg_catalog.pg_range r on (t.oid = r.rngtypid)",
-    Version.get(9, 1, 0),
-    " select" +
+  private static final String SQL = " select" +
       "   t.oid, typname as \"name\", typlen as \"length\", typtype as \"discriminator\", typcategory as \"category\", typdelim as \"deliminator\", typrelid as \"relationId\"," +
       "   typelem as \"elementTypeId\", typarray as \"arrayTypeId\", typinput::oid as \"inputId\", typoutput::oid as \"outputId\", typreceive::oid as \"receiveId\", typsend::oid as \"sendId\"," +
       "   typmodin::oid as \"modInId\", typmodout::oid as \"modOutId\", typalign as alignment, n.nspname as \"namespace\", " +
       "   typbasetype as \"domainBaseTypeId\", typtypmod as \"domainTypeMod\", typnotnull as \"domainNotNull\", pg_catalog.pg_get_expr(typdefaultbin,0) as \"domainDefault\" " +
-      "   null as \"rangeBaseTypeId\"" +
       " from" +
       "   pg_catalog.pg_type t" +
-      " left join pg_catalog.pg_namespace n on (t.typnamespace = n.oid) ",
-  };
-
+      " left join pg_catalog.pg_namespace n on (t.typnamespace = n.oid) ";
 }

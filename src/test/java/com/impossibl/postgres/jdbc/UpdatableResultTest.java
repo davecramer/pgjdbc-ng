@@ -73,7 +73,7 @@ public class UpdatableResultTest {
   @Before
   public void setUp() throws Exception {
     con = TestUtil.openDB();
-    TestUtil.createTable(con, "updatable", "id int primary key, name text, notselected text, ts timestamp with time zone, intarr int[]", true);
+    TestUtil.createTable(con, "updatable", "id int primary key, name text, notselected text, ts timestamp with time zone, intarr int[]");
     TestUtil.createTable(con, "second", "id1 int primary key, name1 text");
     TestUtil.createTable(con, "stream", "id int primary key, asi text, chr text, bin bytea");
 

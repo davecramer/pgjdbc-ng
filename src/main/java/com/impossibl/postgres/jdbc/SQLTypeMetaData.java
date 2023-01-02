@@ -99,6 +99,7 @@ class SQLTypeMetaData {
     switch (type.getCategory()) {
       case Enumeration:
       case String:
+      case BPChar:
         return true;
 
       default:

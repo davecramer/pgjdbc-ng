@@ -60,6 +60,7 @@ public abstract class Type {
   public enum Category {
     Array('A'),
     Boolean('B'),
+    BPChar('Z'),
     Composite('C'),
     DateTime('D'),
     Enumeration('E'),
@@ -179,7 +180,7 @@ public abstract class Type {
   private Short length;
   private Byte alignment;
   private Category category;
-  private Character delimeter;
+  private Character delimiter;
   private int arrayTypeId;
   private int relationId;
   private TextCodec textCodec;
@@ -198,7 +199,7 @@ public abstract class Type {
     this.length = length;
     this.alignment = alignment;
     this.category = category;
-    this.delimeter = delimeter;
+    this.delimiter = delimeter;
     this.arrayTypeId = arrayTypeId;
     this.binaryCodec = binaryCodec;
     this.textCodec = textCodec;
@@ -254,12 +255,12 @@ public abstract class Type {
     this.category = category;
   }
 
-  public char getDelimeter() {
-    return delimeter;
+  public char getDelimiter() {
+    return delimiter;
   }
 
-  public void setDelimeter(char delimeter) {
-    this.delimeter = delimeter;
+  public void setDelimiter(char delimiter) {
+    this.delimiter = delimiter;
   }
 
   public int getArrayTypeId() {
@@ -378,7 +379,7 @@ public abstract class Type {
     length = source.getLength() != -1 ? source.getLength() : null;
     alignment = getAlignment(source.getAlignment() != null ? source.getAlignment().charAt(0) : null);
     category = Category.findValue(source.getCategory());
-    delimeter = source.getDeliminator() != null ? source.getDeliminator().charAt(0) : null;
+    delimiter = source.getDeliminator() != null ? source.getDeliminator().charAt(0) : null;
     arrayTypeId = source.getArrayTypeId();
     relationId = source.getRelationId();
     textCodec = registry.loadTextCodec(source.getInputId(), source.getOutputId());

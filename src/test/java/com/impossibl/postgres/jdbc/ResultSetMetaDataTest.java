@@ -63,7 +63,7 @@ public class ResultSetMetaDataTest {
   @Before
   public void before() throws Exception {
     conn = TestUtil.openDB();
-    TestUtil.createTable(conn, "rsmd1", "a int primary key, b text, c decimal(10,2)", true);
+    TestUtil.createTable(conn, "rsmd1", "a int primary key, b text, c decimal(10,2)");
     TestUtil.createTable(conn, "timetest", "tm time(3), tmtz timetz, ts timestamp without time zone, tstz timestamp(6) with time zone");
 
     TestUtil.dropSequence(conn, "serialtest_a_seq");
@@ -95,7 +95,7 @@ public class ResultSetMetaDataTest {
   @Test
   public void testStandardResultSet() throws SQLException {
     Statement stmt = conn.createStatement();
-    ResultSet rs = stmt.executeQuery("SELECT a,b,c,a+c as total,oid,b as d FROM rsmd1");
+    ResultSet rs = stmt.executeQuery("SELECT a,b,c,a+c as total,b as d FROM rsmd1");
     runStandardTests(rs.getMetaData());
     rs.close();
     stmt.close();
@@ -104,22 +104,21 @@ public class ResultSetMetaDataTest {
   @Test
   public void testPreparedResultSet() throws SQLException {
 
-    PreparedStatement pstmt = conn.prepareStatement("SELECT a,b,c,a+c as total,oid,b as d FROM rsmd1 WHERE b = ?");
+    PreparedStatement pstmt = conn.prepareStatement("SELECT a,b,c,a+c as total,b as d FROM rsmd1 WHERE b = ?");
     runStandardTests(pstmt.getMetaData());
     pstmt.close();
   }
 
   private void runStandardTests(ResultSetMetaData rsmd) throws SQLException {
 
-    assertEquals(6, rsmd.getColumnCount());
+    assertEquals(5, rsmd.getColumnCount());
 
     assertEquals("a", rsmd.getColumnLabel(1));
     assertEquals("total", rsmd.getColumnLabel(4));
 
     assertEquals("a", rsmd.getColumnName(1));
-    assertEquals("oid", rsmd.getColumnName(5));
     assertEquals("total", rsmd.getColumnName(4));
-    assertEquals("b", rsmd.getColumnName(6));
+    assertEquals("b", rsmd.getColumnName(5));
 
     assertEquals(Types.INTEGER, rsmd.getColumnType(1));
     assertEquals(Types.VARCHAR, rsmd.getColumnType(2));

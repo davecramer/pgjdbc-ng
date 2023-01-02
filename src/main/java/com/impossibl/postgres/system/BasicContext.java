@@ -42,6 +42,7 @@ import com.impossibl.postgres.protocol.RowData;
 import com.impossibl.postgres.protocol.v30.ProtocolFactoryImpl;
 import com.impossibl.postgres.system.tables.PgAttribute;
 import com.impossibl.postgres.system.tables.PgProc;
+import com.impossibl.postgres.system.tables.PgRange;
 import com.impossibl.postgres.system.tables.PgType;
 import com.impossibl.postgres.system.tables.Table;
 import com.impossibl.postgres.system.tables.Tables;
@@ -306,6 +307,8 @@ public class BasicContext extends AbstractContext {
     String typeSQL = PgType.INSTANCE.getSQL(serverVersion);
     List<PgType.Row> pgTypes = queryTable(typeSQL, PgType.INSTANCE);
 
+    String pgRangeSQL = PgRange.INSTANCE.getSQL(serverVersion);
+    List<PgRange.Row> pgRanges = queryTable(pgRangeSQL, PgRange.INSTANCE);
     //Load attributes
     String attrsSQL = PgAttribute.INSTANCE.getSQL(serverVersion);
     List<PgAttribute.Row> pgAttrs = queryTable(attrsSQL, PgAttribute.INSTANCE);
@@ -317,7 +320,7 @@ public class BasicContext extends AbstractContext {
     logger.fine("query time: " + timer.getLap() + "ms");
 
     //Update the registry with known types
-    registry.update(pgTypes, pgAttrs, pgProcs);
+    registry.update(pgTypes, pgAttrs, pgProcs, pgRanges);
 
     logger.fine("load time: " + timer.getLap() + "ms");
   }
@@ -365,7 +368,7 @@ public class BasicContext extends AbstractContext {
       //Load attributes
       List<PgAttribute.Row> pgAttrs = queryTable("@refresh-type-attrs", PgAttribute.INSTANCE, pgTypes.get(0).getRelationId());
 
-      registry.update(pgTypes, pgAttrs, emptyList());
+      registry.update(pgTypes, pgAttrs, emptyList(), emptyList());
     }
     catch (IOException | NoticeException e) {
       //Ignore errors
@@ -391,7 +394,7 @@ public class BasicContext extends AbstractContext {
       //Load attributes
       List<PgAttribute.Row> pgAttrs = queryTable("@refresh-types-attrs", PgAttribute.INSTANCE, (Object) typeIds);
 
-      registry.update(pgTypes, pgAttrs, emptyList());
+      registry.update(pgTypes, pgAttrs, emptyList(), emptyList());
     }
     catch (IOException | NoticeException e) {
       logger.log(WARNING, "Error refreshing types", e);
@@ -414,7 +417,7 @@ public class BasicContext extends AbstractContext {
       //Load attributes
       List<PgAttribute.Row> pgAttrs = queryTable("@refresh-type-attrs", PgAttribute.INSTANCE, relationId);
 
-      registry.update(pgTypes, pgAttrs, emptyList());
+      registry.update(pgTypes, pgAttrs, emptyList(), emptyList());
     }
     catch (IOException | NoticeException e) {
       //Ignore errors

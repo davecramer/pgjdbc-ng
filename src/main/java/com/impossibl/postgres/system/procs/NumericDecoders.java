@@ -35,6 +35,7 @@ import java.math.BigInteger;
 import java.util.function.Function;
 
 
+
 abstract class NumericBinaryDecoder<N extends Number> extends AutoConvertingBinaryDecoder<N> {
 
   protected NumericBinaryDecoder(Integer requiredLength) {
@@ -60,6 +61,11 @@ abstract class NumericTextDecoder<N extends Number> extends AutoConvertingTextDe
 }
 
 class NumericDecodingConverter<N extends Number> implements AutoConvertingDecoder.Converter<N> {
+
+  private static final float LONG_MAX_FLOAT = StrictMath.nextDown(Long.MAX_VALUE);
+  private static final float LONG_MIN_FLOAT = StrictMath.nextUp(Long.MIN_VALUE);
+  private static final BigInteger LONGMAX = new BigInteger(Long.toString(Long.MAX_VALUE));
+  private static final BigInteger LONGMIN = new BigInteger(Long.toString(Long.MIN_VALUE));
 
   private Function<N, String> stringConverter;
 
@@ -152,7 +158,23 @@ class NumericDecodingConverter<N extends Number> implements AutoConvertingDecode
       else if (decoded instanceof BigInteger) {
         return ((BigInteger) decoded).longValueExact();
       }
-      return decoded.longValue();
+      if (decoded  instanceof Float) {
+        if ((Float) decoded < LONG_MAX_FLOAT && (Float) decoded > LONG_MIN_FLOAT) {
+          return decoded.longValue();
+        }
+        else {
+          BigDecimal bd = new BigDecimal((Float) decoded);
+          final BigInteger i = bd.toBigInteger();
+          if (i.compareTo(LONGMAX) > 0 || i.compareTo(LONGMIN) < 0) {
+            throw new RuntimeException("value out of range");
+          }
+          return i.longValue();
+        }
+      }
+      else {
+        return decoded.longValue();
+      }
+
     }
 
     return null;

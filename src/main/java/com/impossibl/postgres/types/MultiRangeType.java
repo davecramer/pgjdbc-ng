@@ -34,16 +34,9 @@ import com.impossibl.postgres.system.tables.PgType;
 
 import java.util.Collection;
 
-/**
- * A database range type.
- *
- * @author kdubb
- *
- */
-public class RangeType extends Type {
+public class MultiRangeType extends Type {
 
   Type base;
-
   public Type getBase() {
     return base;
   }
@@ -73,5 +66,4 @@ public class RangeType extends Type {
     super.load(source, attrs, registry);
 
   }
-
 }
