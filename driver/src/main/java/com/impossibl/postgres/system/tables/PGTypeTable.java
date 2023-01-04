@@ -282,16 +282,26 @@ public class PGTypeTable implements Table<PGTypeTable.Row> {
   }
 
   public static final Object[] SQL = {
+    Version.get(14,0,0),
+      " SELECT" +
+          " t.oid, typname, typlen, typtype, typcategory, typdelim, typrelid, typelem, typarray," +
+          " typinput::text, typoutput::text, typreceive::text, typsend::text, typmodin::text, typmodout::text," +
+          " typalign, n.nspname, typbasetype, typtypmod, typnotnull, pg_catalog.pg_get_expr(typdefaultbin,0), r.rngsubtype, m.rngsubtype" +
+          " FROM" +
+          "   pg_catalog.pg_type t" +
+          " LEFT JOIN pg_catalog.pg_namespace n ON (t.typnamespace = n.oid)" +
+          " LEFT JOIN pg_catalog.pg_range r ON (t.oid = r.rngtypid)" +
+          " LEFT JOIN pg_catalog.pg_range m ON (t.oid = m.rngmultitypid)",
+
     Version.get(9, 2, 0),
     " SELECT" +
         " t.oid, typname, typlen, typtype, typcategory, typdelim, typrelid, typelem, typarray," +
         " typinput::text, typoutput::text, typreceive::text, typsend::text, typmodin::text, typmodout::text," +
-        " typalign, n.nspname, typbasetype, typtypmod, typnotnull, pg_catalog.pg_get_expr(typdefaultbin,0), r.rngsubtype, m.rngsubtype" +
+        " typalign, n.nspname, typbasetype, typtypmod, typnotnull, pg_catalog.pg_get_expr(typdefaultbin,0), r.rngsubtype, NULL" +
         " FROM" +
         "   pg_catalog.pg_type t" +
         " LEFT JOIN pg_catalog.pg_namespace n ON (t.typnamespace = n.oid)" +
-        " LEFT JOIN pg_catalog.pg_range r ON (t.oid = r.rngtypid)" +
-        " LEFT JOIN pg_catalog.pg_range m ON (t.oid = m.rngmultitypid)",
+        " LEFT JOIN pg_catalog.pg_range r ON (t.oid = r.rngtypid)",
     Version.get(9, 1, 0),
     " SELECT" +
         " t.oid, typname, typlen, typtype, typcategory, typdelim, typrelid, typelem, typarray," +
