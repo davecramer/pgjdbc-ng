@@ -12,9 +12,10 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
         with:
+          distribution: 'zulu'
           java-version: 11
       - name: Run Checks
         uses: burrunan/gradle-cache-action@v1
@@ -27,12 +28,13 @@ jobs:
     needs: [check]
     strategy:
       matrix:
-        pg: [10, 11, 12, 13]
-        jdk: [8, 11]
+        pg: [10, 11, 12, 13,14,15]
+        jdk: [11]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
         with:
+          distribution: 'zulu'
           java-version: ${{ matrix.jdk }}
       - name: Setup PostgreSQL SSL Permissions
         run: |
@@ -51,9 +53,10 @@ jobs:
     if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/rel/v')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
         with:
+          distribution: 'zulu'
           java-version: 11
       - name: Publish Maven Artifacts
         uses: burrunan/gradle-cache-action@v1
