@@ -282,7 +282,7 @@ public class PGTypeTable implements Table<PGTypeTable.Row> {
   }
 
   public static final Object[] SQL = {
-    Version.get(14,0,0),
+    Version.get(14, 0, 0),
       " SELECT" +
           " t.oid, typname, typlen, typtype, typcategory, typdelim, typrelid, typelem, typarray," +
           " typinput::text, typoutput::text, typreceive::text, typsend::text, typmodin::text, typmodout::text," +
