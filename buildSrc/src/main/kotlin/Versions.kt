@@ -11,7 +11,7 @@ object Versions {
   /**
    * Required Libraries
    */
-  const val netty = "4.1.100.Final"
+  const val netty = "4.1.110.Final"
 
   /**
    * Tooling Libraries
