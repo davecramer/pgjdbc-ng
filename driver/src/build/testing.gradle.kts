@@ -170,8 +170,9 @@ fun checkServerKeyPermissions(): Boolean {
 
 fun execPSQL(pgVersion: String, serviceName: String, projectName: String, cmd: String, db: String) {
   project.exec {
-    executable = "docker-compose"
+    executable = "docker"
     args = listOf(
+      "compose",
        "-f", "$projectDir/src/test/docker/postgres-services.yml", "-p", projectName,
        "exec", "-T", serviceName,
        "psql", "-c", cmd, "-U", "test", "-d", db
