@@ -1,7 +1,7 @@
 
 plugins {
   id("java-library")
-  id("org.jetbrains.kotlin.jvm") version "1.9.10" // Must match Gradle version
+  id("org.jetbrains.kotlin.jvm") version "2.3.20" // Must match Gradle version
 }
 
 repositories {
@@ -10,10 +10,10 @@ repositories {
 }
 
 
-val javaPoetVersion = "1.11.1"
+val javaPoetVersion = "1.13.0"
 val javaParserVersion = "3.17.0"  // Must match Gradle version
-val junitVersion = "5.3.2"
-val compilerTesting = "0.15"
+val junitVersion = "5.11.4"
+val compilerTesting = "0.21.0"
 
 
 dependencies {
