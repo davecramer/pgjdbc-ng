@@ -47,6 +47,14 @@ jobs:
           properties: |
             postgresVersions=${{ matrix.pg }}
           arguments: test -x checkstyleMain -x checkstyleTest
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-pg${{ matrix.pg }}-jdk${{ matrix.jdk }}
+          path: |
+            **/build/test-results/test/
+            **/build/reports/tests/test/
 
   deploy:
     needs: [check, build]
