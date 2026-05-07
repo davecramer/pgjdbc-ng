@@ -80,12 +80,12 @@ if ((project.properties["noDocker"] ?: false) == false) {
     configure<ComposeExtension> {
 
       val compose = createNested("postgres$pgVersion").apply {
-        useComposeFiles = listOf("src/test/docker/postgres-services.yml")
-        startedServices = listOf(serviceName)
-        environment["PG_VERSION"] = pgVersion
-        captureContainersOutputToFiles = file("$buildDir/test/$pgVersion/containers")
-        composeLogToFile = file("$buildDir/test/$pgVersion/compose.log")
-        projectName = composeProjectName
+        useComposeFiles.set(listOf("src/test/docker/postgres-services.yml"))
+        startedServices.set(listOf(serviceName))
+        environment.put("PG_VERSION", pgVersion)
+        captureContainersOutputToFiles.set(file("$buildDir/test/$pgVersion/containers"))
+        composeLogToFile.set(file("$buildDir/test/$pgVersion/compose.log"))
+        projectName.set(composeProjectName)
         isRequiredBy(curTestTask.get())
       }
 

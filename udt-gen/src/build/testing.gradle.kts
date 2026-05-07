@@ -32,12 +32,12 @@ val testTask = tasks.named<Test>("test") {
 if ((project.properties["noDocker"] ?: false) == false) {
 
   configure<ComposeExtension> {
-    useComposeFiles = listOf("src/test/docker/postgres-services.yml")
-    startedServices = listOf("postgres")
-    environment["PG_VERSION"] = pgVersion
-    captureContainersOutputToFiles = file("$buildDir/test/containers")
-    composeLogToFile = file("$buildDir/test/compose.log")
-    projectName = "udt-test"
+    useComposeFiles.set(listOf("src/test/docker/postgres-services.yml"))
+    startedServices.set(listOf("postgres"))
+    environment.put("PG_VERSION", pgVersion)
+    captureContainersOutputToFiles.set(file("$buildDir/test/containers"))
+    composeLogToFile.set(file("$buildDir/test/compose.log"))
+    projectName.set("udt-test")
     isRequiredBy(testTask.get())
   }
 
