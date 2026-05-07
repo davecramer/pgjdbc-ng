@@ -207,8 +207,8 @@ class SettingsProcessor : AbstractProcessor() {
                out.append("|.DataSource\n")
                   .append("[source%nowrap,java]\n")
                   .append("----\n")
-                  .append("get").append(setting.name.beanPropertyName.capitalize()).append("()\n")
-                  .append("set").append(setting.name.beanPropertyName.capitalize()).append("(").append(simpleTypeName).append(")\n")
+                  .append("get").append(setting.name.beanPropertyName.replaceFirstChar { it.uppercase() }).append("()\n")
+                  .append("set").append(setting.name.beanPropertyName.replaceFirstChar { it.uppercase() }).append("(").append(simpleTypeName).append(")\n")
                   .append("----\n\n")
              }
 
@@ -561,9 +561,9 @@ class SettingsProcessor : AbstractProcessor() {
 
       val settingsGetterName = if (paramType != setting.type) "getText" else "get"
 
-      val getter = MethodSpec.methodBuilder("get" + setting.name.beanPropertyName.capitalize())
+      val getter = MethodSpec.methodBuilder("get" + setting.name.beanPropertyName.replaceFirstChar { it.uppercase() })
          .addJavadoc(setting.desc.escapePoet() + "\n\n")
-         .addJavadoc("@see #set\$L\n", setting.name.beanPropertyName.capitalize())
+         .addJavadoc("@see #set\$L\n", setting.name.beanPropertyName.replaceFirstChar { it.uppercase() })
          .addJavadoc("@return Current value of \$L\n", setting.name.beanPropertyName)
          .addModifiers(Modifier.PUBLIC)
          .returns(getterTypeName)
@@ -584,7 +584,7 @@ class SettingsProcessor : AbstractProcessor() {
 
       val settingsSetterName = if (paramType != setting.type) "setText" else "set"
 
-      val setter = MethodSpec.methodBuilder("set" + setting.name.beanPropertyName.capitalize())
+      val setter = MethodSpec.methodBuilder("set" + setting.name.beanPropertyName.replaceFirstChar { it.uppercase() })
          .addJavadoc(setting.desc.escapePoet() + "\n\n")
          .apply {
            if (setting.type.isEnum) {
