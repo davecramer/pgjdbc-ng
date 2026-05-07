@@ -3,7 +3,7 @@ import com.avast.gradle.dockercompose.DockerComposePlugin
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 buildscript {
-  repositories { jcenter() }
+  repositories { mavenCentral() }
   dependencies {
     classpath("com.avast.gradle:gradle-docker-compose-plugin:${Versions.dockerComposePlugin}")
   }

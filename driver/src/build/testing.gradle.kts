@@ -8,7 +8,7 @@ import java.nio.file.Files
 import java.nio.file.attribute.PosixFilePermission.*
 
 buildscript {
-  repositories { jcenter() }
+  repositories { mavenCentral() }
   dependencies {
     classpath("com.avast.gradle:gradle-docker-compose-plugin:${Versions.dockerComposePlugin}")
   }
