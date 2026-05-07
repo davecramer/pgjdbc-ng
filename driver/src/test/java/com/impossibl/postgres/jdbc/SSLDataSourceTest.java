@@ -245,7 +245,7 @@ public class SSLDataSourceTest {
 
   static {
     String PG_HBA_ON = "Connection Error: no pg_hba.conf entry for host .*, user .*, database .*, SSL on(?s-d:.*)";
-    String PG_HBA_OFF = "Connection Error: no pg_hba.conf entry for host .*, user .*, database .*, SSL off(?s-d:.*)";
+    String PG_HBA_OFF = "Connection Error: no pg_hba.conf entry for host .*, user .*, database .*, (SSL off|no encryption)(?s-d:.*)";
     String BROKEN = "Connection Error: (Channel Closed|SSL Error: (\\(unknown_ca\\) )?Received fatal alert: unknown_ca)";
     String ANY = ".*";
     String VALIDATOR = "Connection Error: SSL Error: PKIX path (building|validation) failed:.*";
