@@ -37,7 +37,7 @@ if ((project.properties["noDocker"] ?: false) == false) {
     environment.put("PG_VERSION", pgVersion)
     captureContainersOutputToFiles.set(file("$buildDir/test/containers"))
     composeLogToFile.set(file("$buildDir/test/compose.log"))
-    projectName.set("udt-test")
+    setProjectName("udt-test")
     isRequiredBy(testTask.get())
   }
 

@@ -85,7 +85,7 @@ if ((project.properties["noDocker"] ?: false) == false) {
         environment.put("PG_VERSION", pgVersion)
         captureContainersOutputToFiles.set(file("$buildDir/test/$pgVersion/containers"))
         composeLogToFile.set(file("$buildDir/test/$pgVersion/compose.log"))
-        projectName.set(composeProjectName)
+        setProjectName(composeProjectName)
         isRequiredBy(curTestTask.get())
       }
 
