@@ -77,7 +77,8 @@
     <module>spy</module>
     <module>settings-gen</module>
     <module>driver</module>
-    <module>udt-gen</module>
+    <!-- udt-gen is a Kotlin tool module; build with Gradle: ./gradlew :udt-gen:build -->
+    <!--<module>udt-gen</module>-->
   </modules>
 
   <dependencyManagement>
