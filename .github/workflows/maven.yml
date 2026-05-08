@@ -28,32 +28,25 @@ jobs:
       matrix:
         pg: [12, 13, 14, 15, 16, 17, 18]
         jdk: [11, 17, 21]
-    services:
-      postgres:
-        image: postgres:${{ matrix.pg }}
-        env:
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
-          POSTGRES_DB: test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U test"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-          --mount type=bind,source=${{ github.workspace }}/driver/src/test/resources/certdir/server/server.crt,target=/var/lib/postgresql/server.crt
-          --mount type=bind,source=${{ github.workspace }}/driver/src/test/resources/certdir/server/server.key,target=/var/lib/postgresql/server.key
-        command: >-
-          -c ssl=on
-          -c ssl_cert_file=/var/lib/postgresql/server.crt
-          -c ssl_key_file=/var/lib/postgresql/server.key
     steps:
       - uses: actions/checkout@v4
       - name: Setup PostgreSQL SSL Permissions
         run: |
           chmod 0400 ./driver/src/test/resources/certdir/server/server.key
           sudo chown 70:70 ./driver/src/test/resources/certdir/server/server.key
+      - name: Start PostgreSQL
+        run: |
+          docker run -d --name postgres -p 5432:5432 \
+            -e POSTGRES_USER=test \
+            -e POSTGRES_PASSWORD=test \
+            -e POSTGRES_DB=test \
+            -v ${{ github.workspace }}/driver/src/test/resources/certdir/server/server.crt:/var/lib/postgresql/server.crt \
+            -v ${{ github.workspace }}/driver/src/test/resources/certdir/server/server.key:/var/lib/postgresql/server.key \
+            postgres:${{ matrix.pg }} \
+            -c ssl=on \
+            -c ssl_cert_file=/var/lib/postgresql/server.crt \
+            -c ssl_key_file=/var/lib/postgresql/server.key
+          until docker exec postgres pg_isready -U test; do sleep 1; done
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
