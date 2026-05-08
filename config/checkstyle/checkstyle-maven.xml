@@ -102,7 +102,7 @@
   </module>
 
   <module name="SuppressionFilter">
-    <property name="file" value="${configDir}/suppressions-maven.xml"/>
+    <property name="file" value="${configDir}/suppressions.xml"/>
   </module>
 
 </module>

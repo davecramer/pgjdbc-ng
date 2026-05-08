@@ -9,7 +9,7 @@ dependencies {
 
 configure<CheckstyleExtension> {
   val configDir = "$rootDir/config/checkstyle"
-  configFile = file("$configDir/checkstyle.xml")
+  configFile = file("$configDir/checkstyle-maven.xml")
   configProperties = mapOf("configDir" to configDir)
 }
 

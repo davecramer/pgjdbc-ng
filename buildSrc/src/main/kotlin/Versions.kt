@@ -27,7 +27,7 @@ object Versions {
   const val junitClassic = "4.13.2"
   const val guava = "33.4.0-jre"
   const val compilerTesting = "0.21.0"
-  const val checkstyle = "6.18"
+  const val checkstyle = "8.45.1"
 
   /**
    * Plugin dependencies
