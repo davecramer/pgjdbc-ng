@@ -42,7 +42,7 @@ jobs:
             -e POSTGRES_PASSWORD=test \
             -e POSTGRES_DB=test \
             postgres:${{ matrix.pg }}
-          timeout 60 bash -c 'until docker exec postgres pg_isready -U test; do sleep 1; done'
+          timeout 60 bash -c 'while ! docker exec postgres psql -U test -d postgres -c "SELECT 1" > /dev/null 2>&1; do sleep 2; done'
           docker cp ./driver/src/test/resources/certdir/server/pg_hba.conf postgres:/var/lib/postgresql/pg_hba.conf
           docker cp ./driver/src/test/resources/certdir/server/root.crt postgres:/var/lib/postgresql/root.crt
           docker cp ./driver/src/test/resources/certdir/server/server.crt postgres:/var/lib/postgresql/server.crt
@@ -55,7 +55,7 @@ jobs:
           docker exec postgres psql -U test -d postgres -c "ALTER SYSTEM SET ssl_key_file = '/var/lib/postgresql/server.key';"
           docker exec postgres psql -U test -d postgres -c "ALTER SYSTEM SET max_prepared_transactions = 10;"
           docker restart postgres
-          timeout 60 bash -c 'until docker exec postgres pg_isready -U test -d postgres; do sleep 1; done'
+          timeout 60 bash -c 'until docker exec postgres pg_isready -U test -d postgres && docker exec postgres psql -U test -d postgres -c "SELECT 1" > /dev/null 2>&1; do sleep 1; done'
           docker exec postgres bash -c 'cp /var/lib/postgresql/pg_hba.conf $(psql -U test -d postgres -tAc "SHOW data_directory")/pg_hba.conf'
           docker exec postgres psql -U test -d postgres -c "SELECT pg_reload_conf();"
       - name: Setup test databases
