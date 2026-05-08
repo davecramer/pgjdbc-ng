@@ -1,9 +1,9 @@
-package com.impossibl.postgres.tools
+package org.postgresql.ng.tools
 
-import com.impossibl.postgres.api.jdbc.PGAnyType
-import com.impossibl.postgres.api.jdbc.PGConnection
-import com.impossibl.postgres.api.jdbc.PGType
-import com.impossibl.postgres.types.QualifiedName
+import org.postgresql.ng.api.jdbc.PGAnyType
+import org.postgresql.ng.api.jdbc.PGConnection
+import org.postgresql.ng.api.jdbc.PGType
+import org.postgresql.ng.types.QualifiedName
 import com.squareup.javapoet.*
 import com.xenomachina.argparser.*
 import java.io.File

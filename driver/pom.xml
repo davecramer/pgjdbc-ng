@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.impossibl.pgjdbc-ng</groupId>
+    <groupId>org.postgresql.ng</groupId>
     <artifactId>pgjdbc-ng-parent</artifactId>
     <version>0.9-SNAPSHOT</version>
   </parent>
@@ -16,7 +16,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.impossibl.pgjdbc-ng</groupId>
+      <groupId>org.postgresql.ng</groupId>
       <artifactId>pgjdbc-ng-spy</artifactId>
     </dependency>
 
@@ -56,7 +56,7 @@
 
     <!-- Annotation processor -->
     <dependency>
-      <groupId>com.impossibl.pgjdbc-ng.tools</groupId>
+      <groupId>org.postgresql.ng.tools</groupId>
       <artifactId>settings-gen</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -104,7 +104,7 @@
           </compilerArgs>
           <annotationProcessorPaths>
             <path>
-              <groupId>com.impossibl.pgjdbc-ng.tools</groupId>
+              <groupId>org.postgresql.ng.tools</groupId>
               <artifactId>settings-gen</artifactId>
               <version>${project.version}</version>
             </path>
@@ -176,7 +176,7 @@ config_loc=${project.basedir}/../config/checkstyle</propertyExpansion>
               <relocations>
                 <relocation>
                   <pattern>io.netty</pattern>
-                  <shadedPattern>com.impossibl.shadow.io.netty</shadedPattern>
+                  <shadedPattern>org.postgresql.ng.shadow.io.netty</shadedPattern>
                 </relocation>
               </relocations>
               <minimizeJar>true</minimizeJar>
@@ -195,7 +195,7 @@ config_loc=${project.basedir}/../config/checkstyle</propertyExpansion>
               <Implementation-Title>${project.description}</Implementation-Title>
               <Implementation-Version>${project.version}</Implementation-Version>
               <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
-              <Implementation-Vendor>impossibl.com</Implementation-Vendor>
+              <Implementation-Vendor>postgresql.org</Implementation-Vendor>
               <Implementation-URL>https://github.com/pgjdbc-ng</Implementation-URL>
             </manifestEntries>
           </archive>

@@ -1,29 +1,29 @@
-[![CI](https://github.com/impossibl/pgjdbc-ng/workflows/CI/badge.svg)](https://github.com/impossibl/pgjdbc-ng/actions)
-[![](https://img.shields.io/github/release/impossibl/pgjdbc-ng.svg?style=flat)](https://github.com/impossibl/pgjdbc-ng/releases/latest)
+[![CI](https://github.com/pgjdbc-ng/pgjdbc-ng/workflows/CI/badge.svg)](https://github.com/pgjdbc-ng/pgjdbc-ng/actions)
+[![](https://img.shields.io/github/release/pgjdbc-ng/pgjdbc-ng.svg?style=flat)](https://github.com/pgjdbc-ng/pgjdbc-ng/releases/latest)
 
 ### General
 
-A great place to start is the [Website](https://impossibl.github.io/pgjdbc-ng).
+A great place to start is the [Website](https://pgjdbc-ng.github.io/pgjdbc-ng).
 
-For comprehensive documentation see the [User Guide](https://impossibl.github.io/pgjdbc-ng/docs/current/user-guide)
+For comprehensive documentation see the [User Guide](https://pgjdbc-ng.github.io/pgjdbc-ng/docs/current/user-guide)
 
 For quick reference, here are some useful details
 
 #### Dependencies
 
-[![](https://img.shields.io/maven-central/v/com.impossibl.pgjdbc-ng/pgjdbc-ng.svg)](https://search.maven.org/search?q=g:com.impossibl.pgjdbc-ng%20AND%20a:pgjdbc-ng&core=gav)
+[![](https://img.shields.io/maven-central/v/org.postgresql.ng/pgjdbc-ng.svg)](https://search.maven.org/search?q=g:org.postgresql.ng%20AND%20a:pgjdbc-ng&core=gav)
 
 ##### Gradle
 
 ```groovy
-compile "com.impossibl.pgjdbc-ng:pgjdbc-ng:LATEST"
+compile "org.postgresql.ng:pgjdbc-ng:LATEST"
 ```
     
 ##### Maven
 
 ```xml
 <dependency>
-  <groupId>com.impossibl.pgjdbc-ng</groupId>
+  <groupId>org.postgresql.ng</groupId>
   <artifactId>pgjdbc-ng</artifactId>
   <version>LATEST</version>
 </dependency>
@@ -37,22 +37,22 @@ The driver accepts basic URLs in the following format
 	jdbc:pgsql://localhost:5432/db
 	
 
-See the [User Guide](https://impossibl.github.io/pgjdbc-ng/docs/current/user-guide#connection-urls) 
+See the [User Guide](https://pgjdbc-ng.github.io/pgjdbc-ng/docs/current/user-guide#connection-urls) 
 for complete details on the accepted URL syntax.
 
 #### Data sources
 
 The javax.sql.DataSource class is
 
-	com.impossibl.postgres.jdbc.PGDataSource
+	org.postgresql.ng.jdbc.PGDataSource
 
 , the javax.sql.ConnectionPoolDataSource class is
 
-	com.impossibl.postgres.jdbc.PGConnectionPoolDataSource
+	org.postgresql.ng.jdbc.PGConnectionPoolDataSource
 
 and the XADataSource class is
 
-	com.impossibl.postgres.jdbc.xa.PGXADataSource
+	org.postgresql.ng.jdbc.xa.PGXADataSource
 
 #### License
 

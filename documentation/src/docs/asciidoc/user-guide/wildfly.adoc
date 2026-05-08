@@ -32,7 +32,7 @@ provided each time we create a DataSource.
 [source,shell,subs=attributes+]
 .Add a named JDBC Driver
 ----
-/subsystem=datasources/jdbc-driver={driverdepname}:add(driver-name={driverdepname}, driver-module-name={driverdepgroup}, driver-datasource-class-name=com.impossibl.postgres.jdbc.PGDataSource, driver-xa-datasource-class-name=com.impossibl.postgres.jdbc.xa.PGXADataSource)
+/subsystem=datasources/jdbc-driver={driverdepname}:add(driver-name={driverdepname}, driver-module-name={driverdepgroup}, driver-datasource-class-name=org.postgresql.ng.jdbc.PGDataSource, driver-xa-datasource-class-name=org.postgresql.ng.jdbc.xa.PGXADataSource)
 ----
 
 Finally, define a Standard or XA DataSource using the named JDBC Driver
@@ -85,8 +85,8 @@ Add a definition to `datasources/jdbc-driver` subsystem.
 .Driver Definition
 ----
 <driver name="{driverdepname}" module="{driverdepgroup}">
-  <datasource-class>com.impossibl.postgres.jdbc.PGXADataSource</datasource-class>
-  <xa-datasource-class>com.impossibl.postgres.jdbc.xa.PGXADataSource</xa-datasource-class>
+  <datasource-class>org.postgresql.ng.jdbc.PGXADataSource</datasource-class>
+  <xa-datasource-class>org.postgresql.ng.jdbc.xa.PGXADataSource</xa-datasource-class>
 </driver>
 ----
 

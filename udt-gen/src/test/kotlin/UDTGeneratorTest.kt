@@ -1,9 +1,9 @@
-package com.impossibl.postgres.tools.test
+package org.postgresql.ng.tools.test
 
 import com.google.testing.compile.Compilation
 import com.google.testing.compile.Compiler.javac
 import com.google.testing.compile.JavaFileObjects
-import com.impossibl.postgres.tools.UDTGenerator
+import org.postgresql.ng.tools.UDTGenerator
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.hasItems
 import org.hamcrest.MatcherAssert.assertThat

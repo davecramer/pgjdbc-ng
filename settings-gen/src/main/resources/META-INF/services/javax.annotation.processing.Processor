@@ -1,1 +1,1 @@
-com.impossibl.postgres.tools.SettingsProcessor
+org.postgresql.ng.tools.SettingsProcessor

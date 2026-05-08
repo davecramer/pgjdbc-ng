@@ -16,6 +16,6 @@ apply { from("$rootDir/shared/src/build/uber-packaging.gradle.kts") }
  */
 
 tasks.named<ShadowJar>("uberJar") {
-  relocate("io.netty", "com.impossibl.shadow.io.netty")
+  relocate("io.netty", "org.postgresql.ng.shadow.io.netty")
   minimize()
 }

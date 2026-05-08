@@ -1,4 +1,4 @@
-package com.impossibl.jdbc.spy;
+package org.postgresql.ng.spy;
 
 import java.util.LinkedHashMap;
 import java.util.stream.Collectors;

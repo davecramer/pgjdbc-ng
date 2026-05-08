@@ -1,6 +1,6 @@
-package com.impossibl.postgres.system.test;
+package org.postgresql.ng.system.test;
 
-import com.impossibl.postgres.system.Setting;
+import org.postgresql.ng.system.Setting;
 
 
 @Setting.Factory

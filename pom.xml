@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.impossibl.pgjdbc-ng</groupId>
+  <groupId>org.postgresql.ng</groupId>
   <artifactId>pgjdbc-ng-parent</artifactId>
   <version>0.9-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -14,7 +14,7 @@
   <url>https://github.com/pgjdbc-ng</url>
 
   <organization>
-    <name>impossibl.com</name>
+    <name>postgresql.org</name>
     <url>https://github.com</url>
   </organization>
 
@@ -43,7 +43,7 @@
   <scm>
     <url>https://github.com/pgjdbc-ng</url>
     <connection>scm:https://github.com/pgjdbc-ng.git</connection>
-    <developerConnection>scm:git@github.com:impossibl/pgjdbc-ng.git</developerConnection>
+    <developerConnection>scm:git@github.com:pgjdbc-ng/pgjdbc-ng.git</developerConnection>
   </scm>
 
   <issueManagement>
@@ -85,17 +85,17 @@
     <dependencies>
       <!-- Internal modules -->
       <dependency>
-        <groupId>com.impossibl.pgjdbc-ng</groupId>
+        <groupId>org.postgresql.ng</groupId>
         <artifactId>pgjdbc-ng-spy</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.impossibl.pgjdbc-ng</groupId>
+        <groupId>org.postgresql.ng</groupId>
         <artifactId>pgjdbc-ng</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.impossibl.pgjdbc-ng.tools</groupId>
+        <groupId>org.postgresql.ng.tools</groupId>
         <artifactId>settings-gen</artifactId>
         <version>${project.version}</version>
       </dependency>

@@ -5,12 +5,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.impossibl.pgjdbc-ng</groupId>
+    <groupId>org.postgresql.ng</groupId>
     <artifactId>pgjdbc-ng-parent</artifactId>
     <version>0.9-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.impossibl.pgjdbc-ng.tools</groupId>
+  <groupId>org.postgresql.ng.tools</groupId>
   <artifactId>settings-gen</artifactId>
   <name>PostgreSQL JDBC - NG - Settings Processor</name>
   <description>PostgreSQL JDBC - NG - Settings Processor</description>

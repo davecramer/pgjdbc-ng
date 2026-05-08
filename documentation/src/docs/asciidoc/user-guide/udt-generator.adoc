@@ -78,7 +78,7 @@ To use the generator as a library and execute it programmatically.
 
 [source,java]
 ----
-import com.impossibl.postgres.tools.UDTGenerator;
+import org.postgresql.ng.tools.UDTGenerator;
 import java.sql.Connection;
 import java.util.List;
 import java.io.File;

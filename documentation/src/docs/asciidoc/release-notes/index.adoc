@@ -5,7 +5,7 @@ include::../maintainers.txt[]
 :drivername: PGJDBC-NG
 :vendorname: PostgreSQL
 :toclevels: 3
-:projectrepo: https://github.com/impossibl/pgjdbc-ng
+:projectrepo: https://github.com/pgjdbc-ng/pgjdbc-ng
 
 This document contains the release notes for all {drivername} releases since 0.8.
 

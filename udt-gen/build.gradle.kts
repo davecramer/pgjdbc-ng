@@ -5,7 +5,7 @@ plugins {
 }
 
 
-group = "com.impossibl.pgjdbc-ng.tools"
+group = "org.postgresql.ng.tools"
 description = "PostgreSQL JDBC - NG - UDT Generator"
 
 

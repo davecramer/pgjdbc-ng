@@ -1,4 +1,4 @@
-import com.impossibl.jdbc.spy.tools.SpyGen
+import org.postgresql.ng.spy.tools.SpyGen
 
 plugins {
   `java-library`

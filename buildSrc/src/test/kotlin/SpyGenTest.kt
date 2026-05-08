@@ -1,4 +1,4 @@
-package com.impossibl.jdbc.spy.tools
+package org.postgresql.ng.spy.tools
 
 import com.google.testing.compile.CompilationSubject.assertThat
 import com.google.testing.compile.Compiler.javac

@@ -15,20 +15,20 @@ allprojects {
     plugin("idea")
   }
 
-  group = "com.impossibl.pgjdbc-ng"
+  group = "org.postgresql.ng"
   version = "0.9-SNAPSHOT"
 
   extra["isSnapshot"] = version.toString().endsWith("SNAPSHOT")
 
   val organization by extra(mapOf(
-     "name" to "impossibl.com",
+     "name" to "postgresql.org",
      "url" to "https://github.com"
   ))
 
   val url by extra("${organization["url"]}/pgjdbc-ng")
   extra["issuesUrl"] = "$url/issues"
   extra["scmUrl"] = "scm:$url.git"
-  extra["scmGitUrl"] = "scm:git@github.com:impossibl/pgjdbc-ng.git"
+  extra["scmGitUrl"] = "scm:git@github.com:pgjdbc-ng/pgjdbc-ng.git"
 }
 
 subprojects {
@@ -45,15 +45,15 @@ val isSnapshot: Boolean by project
 tasks {
 
   val downloadTasks = listOf(
-     centralDownload("com.impossibl.pgjdbc-ng", "pgjdbc-ng-all"),
-     centralDownload("com.impossibl.pgjdbc-ng", "pgjdbc-ng", "javadoc"),
-     centralDownload("com.impossibl.pgjdbc-ng", "pgjdbc-ng", "sources"),
-     centralDownload("com.impossibl.pgjdbc-ng", "spy"),
-     centralDownload("com.impossibl.pgjdbc-ng", "spy", "javadoc"),
-     centralDownload("com.impossibl.pgjdbc-ng", "spy", "sources"),
-     centralDownload("com.impossibl.pgjdbc-ng.tools", "udt-gen-all"),
-     centralDownload("com.impossibl.pgjdbc-ng.tools", "udt-gen", "javadoc"),
-     centralDownload("com.impossibl.pgjdbc-ng.tools", "udt-gen", "sources")
+     centralDownload("org.postgresql.ng", "pgjdbc-ng-all"),
+     centralDownload("org.postgresql.ng", "pgjdbc-ng", "javadoc"),
+     centralDownload("org.postgresql.ng", "pgjdbc-ng", "sources"),
+     centralDownload("org.postgresql.ng", "spy"),
+     centralDownload("org.postgresql.ng", "spy", "javadoc"),
+     centralDownload("org.postgresql.ng", "spy", "sources"),
+     centralDownload("org.postgresql.ng.tools", "udt-gen-all"),
+     centralDownload("org.postgresql.ng.tools", "udt-gen", "javadoc"),
+     centralDownload("org.postgresql.ng.tools", "udt-gen", "sources")
   )
 
   val downloadArtifacts = register<Task>("downloadArtifacts") {
@@ -64,7 +64,7 @@ tasks {
   named<GithubReleaseTask>("githubRelease") {
     dependsOn(downloadArtifacts)
     setAuthorization("token ${project.properties["github.token"]?.toString() ?: ""}")
-    setOwner("impossibl")
+    setOwner("pgjdbc-ng")
     setRepo("pgjdbc-ng")
     setTagName("v$version")
     setTargetCommitish("develop")
@@ -73,9 +73,9 @@ tasks {
     setOverwrite(true)
     setBody(
        """
-       ## [Release Notes](https://impossibl.github.io/pgjdbc-ng/docs/$version/release-notes)
+       ## [Release Notes](https://pgjdbc-ng.github.io/pgjdbc-ng/docs/$version/release-notes)
 
-       ## [User Guide](https://impossibl.github.io/pgjdbc-ng/docs/$version/user-guide)
+       ## [User Guide](https://pgjdbc-ng.github.io/pgjdbc-ng/docs/$version/user-guide)
      """.trimIndent().trim()
     )
     releaseAssets.from(downloadArtifacts)

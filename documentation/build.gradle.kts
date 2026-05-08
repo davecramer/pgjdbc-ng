@@ -5,7 +5,7 @@ plugins {
 
 val isSnapshot: Boolean by project
 
-val docsRepoUri = project.properties.getOrDefault("docsRepoUri", "git@github.com:impossibl/pgjdbc-ng.git").toString()
+val docsRepoUri = project.properties.getOrDefault("docsRepoUri", "git@github.com:pgjdbc-ng/pgjdbc-ng.git").toString()
 
 val javadocs: Configuration = configurations.create("javadocs")
 val docs: Configuration = configurations.create("docs")

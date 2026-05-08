@@ -1,1 +1,1 @@
-com.impossibl.postgres.jdbc.PGDriver
+org.postgresql.ng.jdbc.PGDriver

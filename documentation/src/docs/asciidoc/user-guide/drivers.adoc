@@ -5,5 +5,5 @@
 
 [source,java]
 ----
-import com.impossibl.postgres.jdbc.PGDriver
+import org.postgresql.ng.jdbc.PGDriver
 ----
