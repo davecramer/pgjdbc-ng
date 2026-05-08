@@ -14,12 +14,6 @@ dependencies {
 
 val genDir = file("$buildDir/generated")
 
-sourceSets {
-  main {
-    java.srcDirs(genDir)
-  }
-}
-
 tasks {
 
   val genTask = register("generator") {
@@ -34,12 +28,10 @@ tasks {
   }
 
   compileJava {
-    dependsOn(genTask)
     options.isDeprecation = true
   }
 
   javadoc {
-    dependsOn(genTask)
   }
 
 }
