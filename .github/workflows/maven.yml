@@ -32,8 +32,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup PostgreSQL SSL Permissions
         run: |
-          chmod 0400 ./driver/src/test/resources/certdir/server/server.key
-          sudo chown 70:70 ./driver/src/test/resources/certdir/server/server.key
+          chmod 0600 ./driver/src/test/resources/certdir/server/server.key
+          sudo chown 999:999 ./driver/src/test/resources/certdir/server/server.key
+          sudo chown 999:999 ./driver/src/test/resources/certdir/server/server.crt
       - name: Start PostgreSQL
         run: |
           docker run -d --name postgres -p 5432:5432 \
