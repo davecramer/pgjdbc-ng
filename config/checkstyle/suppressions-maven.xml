@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+        "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+        "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+    <suppress files=".*/sasl/.*\.java" checks="[a-zA-Z0-9]*"/>
+    <!-- Indentation differences between Checkstyle 6.18 (Gradle) and 8.x (Maven) -->
+    <suppress files="Setting\.java" checks="Indentation" lines="342"/>
+    <suppress files="RecoveredXid\.java" checks="Indentation" lines="98-101"/>
+</suppressions>
