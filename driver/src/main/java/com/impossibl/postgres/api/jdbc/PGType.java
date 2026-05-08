@@ -166,6 +166,8 @@ public enum PGType implements PGAnyType {
 
   public static PGType valueOf(Type type) {
 
+    if (type == null) return null;
+
     for (PGType pgType : values()) {
       if (pgType.oid != null && pgType.oid == type.getId())
         return pgType;

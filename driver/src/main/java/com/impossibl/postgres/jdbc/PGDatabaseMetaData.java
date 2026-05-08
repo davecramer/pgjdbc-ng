@@ -1800,6 +1800,8 @@ class PGDatabaseMetaData extends PGMetaData implements DatabaseMetaData {
         int typeOid = rs.getInt(2);
         Type type = registry.loadType(typeOid);
 
+        if (type == null) continue;
+
         row[0] = JDBCTypeMetaData.getTypeName(type, null);
         row[1] = JDBCTypeMapping.getJDBCTypeCode(type);
         row[2] = JDBCTypeMetaData.getMaxPrecision(type);

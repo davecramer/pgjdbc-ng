@@ -43,7 +43,7 @@ import java.util.regex.Pattern;
 
 public class ACLItem {
 
-  public static final String ALL_PRIVILEGES = "arwdDxtXUCTc";
+  public static final String ALL_PRIVILEGES = "arwdDxtXUCTcmsA";
   public static final char[] ALL_PRIVILEGE_CHARS = ALL_PRIVILEGES.toCharArray();
   public static final Right[] ALL_RIGHTS = _rightsOf(ALL_PRIVILEGES);
 

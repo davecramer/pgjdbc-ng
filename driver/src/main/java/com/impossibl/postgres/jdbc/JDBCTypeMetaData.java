@@ -75,6 +75,8 @@ class JDBCTypeMetaData {
 
   static boolean isCaseSensitive(Type type) {
 
+    if (type.getCategory() == null) return false;
+
     switch (type.getCategory()) {
       case Enumeration:
       case String:
@@ -87,7 +89,8 @@ class JDBCTypeMetaData {
 
   static boolean isSigned(Type type) {
 
-    return type.unwrap().getCategory() == Type.Category.Numeric;
+    Type unwrapped = type.unwrap();
+    return unwrapped != null && unwrapped.getCategory() == Type.Category.Numeric;
   }
 
   static String getTypeName(Type type, String attributeDefaultValue) {
@@ -110,7 +113,10 @@ class JDBCTypeMetaData {
 
   static int getPrecisionRadix(Type type) {
 
-    switch (type.unwrap().getCategory()) {
+    Type unwrapped = type.unwrap();
+    if (unwrapped == null || unwrapped.getCategory() == null) return 0;
+
+    switch (unwrapped.getCategory()) {
       case Numeric:
         return 10;
 
@@ -126,6 +132,7 @@ class JDBCTypeMetaData {
   static int getMaxPrecision(Type type) {
 
     type = type.unwrap();
+    if (type == null) return 0;
 
     PGType pgType = PGType.valueOf(type);
     if (pgType == null) {
@@ -359,42 +366,47 @@ class JDBCTypeMetaData {
 
     int size;
 
-    switch (type.getCategory()) {
-      case Numeric:
-        if (precMod == -1) {
-          size = 131089;
-        }
-        else {
-          int prec = getPrecision(type, typeLength, typeModifier);
-          int scale = getScale(type, typeModifier);
-          size = prec + (scale != 0 ? 1 : 0) + 1;
-        }
-        break;
+    if (type.getCategory() == null) {
+      size = Integer.MAX_VALUE;
+    }
+    else {
+      switch (type.getCategory()) {
+        case Numeric:
+          if (precMod == -1) {
+            size = 131089;
+          }
+          else {
+            int prec = getPrecision(type, typeLength, typeModifier);
+            int scale = getScale(type, typeModifier);
+            size = prec + (scale != 0 ? 1 : 0) + 1;
+          }
+          break;
 
-      case Boolean:
-        size = 5; // true/false, yes/no, on/off, 1/0
-        break;
+        case Boolean:
+          size = 5; // true/false, yes/no, on/off, 1/0
+          break;
 
-      case String:
-      case Enumeration:
-      case BitString:
-        if (lenMod == -1)
+        case String:
+        case Enumeration:
+        case BitString:
+          if (lenMod == -1)
+            size = Integer.MAX_VALUE;
+          else
+            size = lenMod;
+          break;
+
+        case DateTime:
+          size = calculateDateTimeDisplaySize(PGType.valueOf(type), precMod);
+          break;
+
+        case Timespan:
+          size = 49;
+          break;
+
+        default:
           size = Integer.MAX_VALUE;
-        else
-          size = lenMod;
-        break;
-
-      case DateTime:
-        size = calculateDateTimeDisplaySize(PGType.valueOf(type), precMod);
-        break;
-
-      case Timespan:
-        size = 49;
-        break;
-
-      default:
-        size = Integer.MAX_VALUE;
-        break;
+          break;
+      }
     }
 
     return size;
