@@ -1,12 +1,5 @@
 name: CI
 
-on:
-  push:
-    branches:
-    - develop
-    - rel/v*
-  pull_request:
-    branches: [ develop ]
 
 jobs:
   check:
