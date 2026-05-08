@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.impossibl.pgjdbc-ng</groupId>
+    <artifactId>pgjdbc-ng-parent</artifactId>
+    <version>0.9-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>pgjdbc-ng</artifactId>
+  <name>PostgreSQL JDBC - NG - Driver</name>
+  <description>PostgreSQL JDBC - NG - Driver</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.impossibl.pgjdbc-ng</groupId>
+      <artifactId>pgjdbc-ng-spy</artifactId>
+    </dependency>
+
+    <!-- Netty -->
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-buffer</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-transport</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-codec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-handler</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-transport-native-unix-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-transport-native-kqueue</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-transport-native-epoll</artifactId>
+    </dependency>
+
+    <!-- Annotation processor -->
+    <dependency>
+      <groupId>com.impossibl.pgjdbc-ng.tools</groupId>
+      <artifactId>settings-gen</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Test -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <!-- Annotation processing with settings-gen -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+          <compilerArgs>
+            <arg>-Adoc.dir=${project.build.directory}/generated/docs/</arg>
+          </compilerArgs>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>com.impossibl.pgjdbc-ng.tools</groupId>
+              <artifactId>settings-gen</artifactId>
+              <version>${project.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+
+      <!-- Checkstyle -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>${project.basedir}/../config/checkstyle/checkstyle.xml</configLocation>
+          <propertyExpansion>configDir=${project.basedir}/../config/checkstyle</propertyExpansion>
+          <excludes>**/guava/**</excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>checkstyle-main</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Testing -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemPropertyVariables>
+            <pgjdbc.test.server>${pgjdbc.test.server}</pgjdbc.test.server>
+            <pgjdbc.test.port>${pgjdbc.test.port}</pgjdbc.test.port>
+            <pgjdbc.test.db>${pgjdbc.test.db}</pgjdbc.test.db>
+            <pgjdbc.test.user>${pgjdbc.test.user}</pgjdbc.test.user>
+            <pgjdbc.test.password>${pgjdbc.test.password}</pgjdbc.test.password>
+          </systemPropertyVariables>
+          <excludes>
+            <exclude>**/RequiredTests.*</exclude>
+            <exclude>**/DateTimeTests.*</exclude>
+            <exclude>**/PerformanceTest.*</exclude>
+            <exclude>**/GiantBlobTest.*</exclude>
+            <exclude>**/ServerDisconnectTest.*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <!-- Uber JAR with shaded Netty -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>all</shadedClassifierName>
+              <relocations>
+                <relocation>
+                  <pattern>io.netty</pattern>
+                  <shadedPattern>com.impossibl.shadow.io.netty</shadedPattern>
+                </relocation>
+              </relocations>
+              <minimizeJar>true</minimizeJar>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- JAR manifest -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Implementation-Title>${project.description}</Implementation-Title>
+              <Implementation-Version>${project.version}</Implementation-Version>
+              <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+              <Implementation-Vendor>impossibl.com</Implementation-Vendor>
+              <Implementation-URL>https://github.com/pgjdbc-ng</Implementation-URL>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
