@@ -59,22 +59,20 @@ jobs:
           docker cp ./driver/src/test/resources/certdir/server/pg_hba.conf postgres:/var/lib/postgresql/data/pg_hba.conf
           docker exec postgres psql -U test -c "SELECT pg_reload_conf();"
       - name: Setup test databases
-        env:
-          PGPASSWORD: test
         run: |
-          psql -h localhost -U test -d test -c "CREATE EXTENSION IF NOT EXISTS hstore;"
-          psql -h localhost -U test -d test -c "CREATE EXTENSION IF NOT EXISTS citext;"
-          psql -h localhost -U test -d test -c "CREATE DATABASE testnoexts OWNER test;" || true
-          psql -h localhost -U test -d test -c "CREATE DATABASE hostdb OWNER test;" || true
-          psql -h localhost -U test -d hostdb -c "CREATE EXTENSION IF NOT EXISTS sslinfo;"
-          psql -h localhost -U test -d test -c "CREATE DATABASE hostssldb OWNER test;" || true
-          psql -h localhost -U test -d hostssldb -c "CREATE EXTENSION IF NOT EXISTS sslinfo;"
-          psql -h localhost -U test -d test -c "CREATE DATABASE hostnossldb OWNER test;" || true
-          psql -h localhost -U test -d hostnossldb -c "CREATE EXTENSION IF NOT EXISTS sslinfo;"
-          psql -h localhost -U test -d test -c "CREATE DATABASE hostsslcertdb OWNER test;" || true
-          psql -h localhost -U test -d hostsslcertdb -c "CREATE EXTENSION IF NOT EXISTS sslinfo;"
-          psql -h localhost -U test -d test -c "CREATE DATABASE certdb OWNER test;" || true
-          psql -h localhost -U test -d certdb -c "CREATE EXTENSION IF NOT EXISTS sslinfo;"
+          docker exec postgres psql -U test -d test -c "CREATE EXTENSION IF NOT EXISTS hstore;"
+          docker exec postgres psql -U test -d test -c "CREATE EXTENSION IF NOT EXISTS citext;"
+          docker exec postgres psql -U test -d test -c "CREATE DATABASE testnoexts OWNER test;" || true
+          docker exec postgres psql -U test -d test -c "CREATE DATABASE hostdb OWNER test;" || true
+          docker exec postgres psql -U test -d hostdb -c "CREATE EXTENSION IF NOT EXISTS sslinfo;"
+          docker exec postgres psql -U test -d test -c "CREATE DATABASE hostssldb OWNER test;" || true
+          docker exec postgres psql -U test -d hostssldb -c "CREATE EXTENSION IF NOT EXISTS sslinfo;"
+          docker exec postgres psql -U test -d test -c "CREATE DATABASE hostnossldb OWNER test;" || true
+          docker exec postgres psql -U test -d hostnossldb -c "CREATE EXTENSION IF NOT EXISTS sslinfo;"
+          docker exec postgres psql -U test -d test -c "CREATE DATABASE hostsslcertdb OWNER test;" || true
+          docker exec postgres psql -U test -d hostsslcertdb -c "CREATE EXTENSION IF NOT EXISTS sslinfo;"
+          docker exec postgres psql -U test -d test -c "CREATE DATABASE certdb OWNER test;" || true
+          docker exec postgres psql -U test -d certdb -c "CREATE EXTENSION IF NOT EXISTS sslinfo;"
       - name: Build & Test
         run: |
           mvn -B verify -Dpgjdbc.test.server=localhost -Dpgjdbc.test.port=5432 \
