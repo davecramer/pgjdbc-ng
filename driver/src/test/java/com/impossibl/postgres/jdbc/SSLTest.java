@@ -207,7 +207,7 @@ public class SSLTest {
   private static TreeMap<String, Object[]> defaultexpected;
 
   static {
-    String PG_HBA_ON = "Connection Error: no pg_hba.conf entry for host .*, user .*, database .*, SSL on(?s-d:.*)";
+    String PG_HBA_ON = "Connection Error: no pg_hba.conf entry for host .*, user .*, database .*, (SSL on|SSL encryption)(?s-d:.*)";
     String PG_HBA_OFF = "Connection Error: no pg_hba.conf entry for host .*, user .*, database .*, (SSL off|no encryption)(?s-d:.*)";
     String BROKEN = "Connection Error: (Channel Closed|SSL Error: (\\(unknown_ca\\) )?Received fatal alert: unknown_ca)";
     String ANY = ".*";
