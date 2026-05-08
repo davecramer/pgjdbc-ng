@@ -91,15 +91,6 @@
         <filtering>true</filtering>
       </resource>
     </resources>
-    <testResources>
-      <testResource>
-        <directory>src/test/resources</directory>
-        <excludes>
-          <exclude>**/server/server.key</exclude>
-          <exclude>**/server/server.crt</exclude>
-        </excludes>
-      </testResource>
-    </testResources>
     <plugins>
       <!-- Annotation processing with settings-gen -->
       <plugin>
